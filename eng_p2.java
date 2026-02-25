@@ -14,12 +14,12 @@ public class eng_p2 {
 
         //to make more intuitive, we will start at index 1 for gate 1
         String[] gate = new String[7];
-        ArrayList<String> path = new ArrayList<>();
+        ArrayList<String> config = new ArrayList<>();
         //if we use a gate, we will append to arraylist
         //at the end of each final stage, we iterate through arraylist to determine whose configs need to be updated
         ArrayList<Integer> usedGates = new ArrayList<>();
         String gatedirect = "";
-        String currpath = "";
+        String currconfig = "";
         String stage = "";
         String finalstage = "";
 
@@ -51,8 +51,9 @@ public class eng_p2 {
         
 
        while (!input.isEmpty()){
-        //reset curr path;
-        currpath = "";
+        //reset curr path string, usedGates arra
+        usedGates.clear();
+        currconfig = "";
 
         //iterate numMarbles
         numMarbles++;
@@ -68,40 +69,152 @@ public class eng_p2 {
         }
         //all if, else if, and else conditions to swap 
 
-        //input of 0 goes down A
-        if (marbleStart.equals(0)){
-            stage = "A";
+        //System.out.print("Marble " + marbleStart);
 
+        if(marbleStart.equals("0")){
+            stage = "A";
         }
-        //input of 1 goes down B
         else{
             stage = "B";
         }
+        //input of 0 goes down A
+        if (stage.equals("A")){
+            //System.out.println("Gate 1 Taken");
+            usedGates.add(1);
+
+            if(gate[1].equals("L")){
+                stage = "C";
+            }
+            else if(gate[1].equals("C")){
+                stage = "D";
+            }
+            else{
+                stage = "E";
+            }
+
+        }else{
+            usedGates.add(2);
+            // System.out.println("Gate 2 Taken");
+
+
+            if(gate[2].equals("L")){
+                stage = "D";
+            }
+            else if(gate[2].equals("C")){
+                stage = "E";
+            }
+            else{
+                stage = "F";
+            }
+
+        }
+
 
 
         if(stage.equals("C")){
+            usedGates.add(3);
+            // System.out.println("Gate 3 Taken");
 
+            if(gate[3].equals("L")){
+                stage = "G";
+            }
+            else{
+                stage = "H";
+            }
         }
         else if(stage.equals("D")){
+            usedGates.add(4);
+            // System.out.println("Gate 4 Taken");
 
+            if(gate[4].equals("L")){
+                stage = "H";
+            }
+            else{
+                stage = "I";
+            }
         }
         else if(stage.equals("E")){
+    //       System.out.println("Gate 5 Taken");
 
+            usedGates.add(5);
+            if(gate[5].equals("L")){
+                stage = "I";
+            }
+            else{
+                stage = "J";
+            }
         }
         else if (stage.equals("F")){
+            usedGates.add(6);
+            //  System.out.println("Gate 6 Taken");
 
+            if(gate[6].equals("L")){
+                stage = "J";
+            }
+            else{
+                stage = "K";
+            }
         }
 
         //you've reached the bottom accept/reject stages
         if(stage.equals("G") | stage.equals("H") | stage.equals("I") | stage.equals("J") | stage.equals("K")   ){
+            
+            //System.out.println("Done with Marble" + numMarbles + "\n");
+            //create current configs
+            for (int i = 1; i < 7; i++){
+                currconfig += gate[i];
+            }
+
+            config.add(currconfig); 
+            
+            //update gate configs that were taken
+            for (Integer i: usedGates){
+               if(i.equals(1)){
+                    if(gate[i].equals("L")){
+                        gate[i] = "R";
+                    }
+                    else if(gate[i].equals("R")){
+                        gate[i] = "C";
+                    }
+                    else{
+                        gate[i] = "L";
+                    }
+
+               }
+               else if(i.equals(2)){
+                    if(gate[i].equals("L")){
+                        gate[i] = "C";
+                    }
+                    else if(gate[i].equals("C")){
+                        gate[i] = "R";
+                    }
+                    else{
+                        gate[i] = "L";
+                    }
+
+               }
+               //gates 3-6 follow same patterns
+               else{
+                    if(gate[i].equals("L")){
+                        gate[i] = "R";
+                    }
+                    else if(gate[i].equals("R")){
+                        gate[i] = "L";
+                    }
+               }
+
+            }
+
             if(lastMarble){
                 finalstage = stage;
-            }
-            
-            //store path taken
-            path.add(currpath); 
 
-            //update gate configs that were taken
+                currconfig = "";
+                for (int i = 1; i < 7; i++){
+                currconfig += gate[i];
+                }
+
+                config.add(currconfig); 
+            }
 
         }
 
@@ -115,8 +228,8 @@ public class eng_p2 {
        //System.out.println("Total Marbles: " + numMarbles);
 
        //printing out paths for each marble + final stage marble ends up in
-       for (String p: path){
-        System.out.println(path + "->");
+       for (String c: config){
+        System.out.print(c + "->");
        }
        System.out.print(finalstage);
 
