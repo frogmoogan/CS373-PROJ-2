@@ -5,6 +5,16 @@ import java.util.Scanner;
 public class eng_p2 {
     public static void main(String[] args){
 
+        //exception handling for invalid num of gate directions
+        if(((args[0].length())< 6)){
+            throw new ArithmeticException("Invalid Number of Gate Directions - too short");
+        }
+
+        if(((args[0].length())> 6)){
+            throw new ArithmeticException("Invalid Number of Gate Directions - too long");
+        }
+    
+
         String directions = "";
         String direct = "";
         int numGates = 1;
@@ -207,13 +217,6 @@ public class eng_p2 {
 
             if(lastMarble){
                 finalstage = stage;
-
-                currconfig = "";
-                for (int i = 1; i < 7; i++){
-                currconfig += gate[i];
-                }
-
-                config.add(currconfig); 
             }
 
         }
@@ -231,6 +234,8 @@ public class eng_p2 {
        for (String c: config){
         System.out.print(c + "->");
        }
+       input = args[0];
+       System.out.print(input + " ");
        System.out.print(finalstage);
 
        
