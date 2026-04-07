@@ -10,9 +10,12 @@ public class eng_p2 {
             throw new ArithmeticException("Invalid Number of Gate Directions - too short");
         }
 
+        //configuration can be longer
+        /*
         if(((args[0].length())> 6)){
             throw new ArithmeticException("Invalid Number of Gate Directions - too long");
         }
+        */
     
 
         String directions = "";
@@ -30,6 +33,7 @@ public class eng_p2 {
         ArrayList<Integer> usedGates = new ArrayList<>();
         String gatedirect = "";
         String currconfig = "";
+        String finalconfig = "";
         String stage = "";
         String finalstage = "";
 
@@ -217,6 +221,9 @@ public class eng_p2 {
 
             if(lastMarble){
                 finalstage = stage;
+                for (int i = 1; i < 7; i++){
+                    finalconfig += gate[i];
+                }
             }
 
         }
@@ -234,9 +241,9 @@ public class eng_p2 {
        for (String c: config){
         System.out.print(c + "->");
        }
-       input = args[0];
-       System.out.print(input + " ");
-       System.out.print(finalstage);
+       //input = args[0];
+       //System.out.print(input + " ");
+       System.out.print(finalconfig + " " +finalstage);
 
        
 
